@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from views import get_all_animals, get_single_animal
+from views import get_all_animals, get_single_animal, get_all_locations, get_single_location
 import json
 
 
@@ -78,6 +78,13 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             else:
                 response = get_all_animals()
+
+        if resource == "locations":
+            if id is not None:
+                response = get_single_location(id)
+
+            else:
+                response = get_all_locations()
 
         self.wfile.write(json.dumps(response).encode())
 

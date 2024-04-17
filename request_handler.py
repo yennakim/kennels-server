@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer
-from views import create_animal, create_location,create_employee, create_customer
+from views import create_animal, create_location, create_employee, create_customer
+from views import delete_animal
 import json
 
 
@@ -86,14 +87,14 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             else:
                 response = get_all_locations()
-                
+
         if resource == "employees":
             if id is not None:
                 response = get_single_employee(id)
 
             else:
                 response = get_all_employees()
-                
+
         if resource == "customers":
             if id is not None:
                 response = get_single_customer(id)
@@ -127,18 +128,34 @@ class HandleRequests(BaseHTTPRequestHandler):
         # function next.
         if resource == "animals":
             new_item = create_animal(post_body)
-        
+
         elif resource == "locations":
             new_item = create_location(post_body)
-        
+
         elif resource == "employees":
             new_item = create_employee(post_body)
-            
+
         elif resource == "customers":
             new_item = create_customer(post_body)
-            
+
         # Encode the new animal and send in response
         self.wfile.write(json.dumps(new_item).encode())
+
+    # Here's a method on the class that overrides the parent's method.
+    # It handles any DELETE request.
+    def do_DELETE(self):
+        # Set a 204 response code
+        self._set_headers(204)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        # Delete a single animal from the list
+        if resource == "animals":
+            delete_animal(id)
+
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
 
     # Here's a method on the class that overrides the parent's method.
     # It handles any PUT request.

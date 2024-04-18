@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer
 from views import create_animal, create_location, create_employee, create_customer
 from views import delete_animal, delete_location, delete_employee, delete_customer
-from views import update_animal, update_location
+from views import update_animal, update_location, update_employee
 import json
 
 
@@ -82,21 +82,21 @@ class HandleRequests(BaseHTTPRequestHandler):
             else:
                 response = get_all_animals()
 
-        if resource == "locations":
+        elif resource == "locations":
             if id is not None:
                 response = get_single_location(id)
 
             else:
                 response = get_all_locations()
 
-        if resource == "employees":
+        elif resource == "employees":
             if id is not None:
                 response = get_single_employee(id)
 
             else:
                 response = get_all_employees()
 
-        if resource == "customers":
+        elif resource == "customers":
             if id is not None:
                 response = get_single_customer(id)
 
@@ -184,7 +184,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             update_animal(id, post_body)
         elif resource == "locations":
             update_location(id, post_body)
-
+        elif resource == "employees":
+            update_employee(id, post_body)
+            
         # Encode the new animal and send in response
         self.wfile.write("".encode())
 

@@ -13,16 +13,18 @@ LOCATIONS = [
 
 # GET
 
+
 def get_all_locations():
     return LOCATIONS
 
+
 def get_single_location(id):
-  requested_location = None
-  
-  for location in LOCATIONS:
-    if location["id"] == id:
-      requested_location = location
-  return requested_location
+    requested_location = None
+
+    for location in LOCATIONS:
+        if location["id"] == id:
+            requested_location = location
+    return requested_location
 
 
 # POST
@@ -38,6 +40,8 @@ def create_location(location):
     return location
 
 # DELETE
+
+
 def delete_location(id):
     # Initial -1 value for location index, in case one isn't found
     location_index = -1
@@ -52,3 +56,15 @@ def delete_location(id):
     # If the location was found, use pop(int) to remove it from list
     if location_index >= 0:
         LOCATIONS.pop(location_index)
+
+# PUT
+
+
+def update_location(id, new_location):
+    # Iterate the LOCATIONS list, but use enumerate() so that
+    # you can access the index value of each item.
+    for index, location in enumerate(LOCATIONS):
+        if location["id"] == id:
+            # Found the location. Update the value.
+            LOCATIONS[index] = new_location
+            break

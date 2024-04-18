@@ -2,6 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer
 from views import create_animal, create_location, create_employee, create_customer
 from views import delete_animal, delete_location, delete_employee, delete_customer
+from views import update_animal, update_location, update_employee, update_customer
 import json
 
 
@@ -81,21 +82,21 @@ class HandleRequests(BaseHTTPRequestHandler):
             else:
                 response = get_all_animals()
 
-        if resource == "locations":
+        elif resource == "locations":
             if id is not None:
                 response = get_single_location(id)
 
             else:
                 response = get_all_locations()
 
-        if resource == "employees":
+        elif resource == "employees":
             if id is not None:
                 response = get_single_employee(id)
 
             else:
                 response = get_all_employees()
 
-        if resource == "customers":
+        elif resource == "customers":
             if id is not None:
                 response = get_single_customer(id)
 
@@ -153,16 +154,16 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single animal from the list
         if resource == "animals":
             delete_animal(id)
-        
+
         elif resource == "locations":
             delete_location(id)
 
         elif resource == "employees":
             delete_employee(id)
-        
+
         elif resource == "customers":
             delete_customer(id)
-        
+
         # Encode the new animal and send in response
         self.wfile.write("".encode())
 
@@ -170,13 +171,31 @@ class HandleRequests(BaseHTTPRequestHandler):
     # It handles any PUT request.
 
     def do_PUT(self):
-        """Handles PUT requests to the server
-        """
-        self.do_POST()
+        self._set_headers(204)
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
 
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        # Delete a single animal from the list
+        if resource == "animals":
+            update_animal(id, post_body)
+        elif resource == "locations":
+            update_location(id, post_body)
+        elif resource == "employees":
+            update_employee(id, post_body)
+        elif resource == "customers":
+            update_customer(id, post_body)
+            
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
 
 # This function is not inside the class. It is the starting
 # point of this application.
+
+
 def main():
     """Starts the server on port 8088 using the HandleRequests class
     """

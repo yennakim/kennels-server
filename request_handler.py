@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from views import get_all_animals, get_single_animal, get_all_locations, get_single_location, get_all_employees, get_single_employee, get_all_customers, get_single_customer
 from views import create_animal, create_location, create_employee, create_customer
 from views import delete_animal, delete_location, delete_employee, delete_customer
-from views import update_animal
+from views import update_animal, update_location
 import json
 
 
@@ -182,6 +182,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single animal from the list
         if resource == "animals":
             update_animal(id, post_body)
+        elif resource == "locations":
+            update_location(id, post_body)
 
         # Encode the new animal and send in response
         self.wfile.write("".encode())

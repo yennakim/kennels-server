@@ -50,7 +50,8 @@ def get_all_locations():
             # Location class above.
             location = Location(row['id'], row['name'], row['address'])
 
-            locations.append(location.__dict__) # see the notes below for an explanation on this line of code.
+            # see the notes below for an explanation on this line of code.
+            locations.append(location.__dict__)
 
     return locations
 
@@ -69,7 +70,7 @@ def get_single_location(id):
             l.address
         FROM location l
         WHERE l.id = ?
-        """, ( id, ))
+        """, (id, ))
 
         # Load the single result into memory
         data = db_cursor.fetchone()

@@ -41,18 +41,34 @@ def get_all_customers():
             # Customer class above.
             customer = Customer(row['id'], row['name'])
 
-            customers.append(customer.__dict__) # see the notes below for an explanation on this line of code.
+            # see the notes below for an explanation on this line of code.
+            customers.append(customer.__dict__)
 
     return customers
 
 
 def get_single_customer(id):
-    requested_customer = None
+    with sqlite3.connect("./kennel.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
 
-    for customer in CUSTOMERS:
-        if customer["id"] == id:
-            requested_customer = customer
-    return requested_customer
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            cust.id,
+            cust.name
+        FROM customer cust
+        WHERE cust.id = ?
+        """, (id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an customer instance from the current row
+        customer = Customer(data['id'], data['name'])
+
+        return customer.__dict__
 
 # POST
 

@@ -72,3 +72,12 @@ SELECT
     a.customer_id
 FROM animal a
 WHERE a.id = 3
+
+-- Get only the location rows where the `id` field value is 1
+
+SELECT
+    l.id,
+    l.name,
+		l.address
+FROM location l
+WHERE l.id = 1 

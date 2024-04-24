@@ -29,10 +29,10 @@ def get_all_locations():
         # Write the SQL query to get the information you want
         db_cursor.execute("""
         SELECT
-            a.id,
-            a.name,
-            a.address
-        FROM location a
+            l.id,
+            l.name,
+            l.address
+        FROM location l
         """)
 
         # Initialize an empty list to hold all location representations
@@ -56,12 +56,28 @@ def get_all_locations():
 
 
 def get_single_location(id):
-    requested_location = None
+    with sqlite3.connect("./kennel.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
 
-    for location in LOCATIONS:
-        if location["id"] == id:
-            requested_location = location
-    return requested_location
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            l.id,
+            l.name,
+            l.address
+        FROM location l
+        WHERE l.id = ?
+        """, ( id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create a location instance from the current row
+        location = Location(data['id'], data['name'], data['address'])
+
+        return location.__dict__
 
 
 # POST

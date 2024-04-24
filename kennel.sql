@@ -91,3 +91,11 @@ SELECT
     cust.name
 FROM customer cust
 WHERE cust.id = 4
+
+-- Get only the employee rows where the `id` field value is 5
+
+SELECT
+    emp.id,
+    emp.name
+FROM employee emp
+WHERE emp.id = 5

@@ -48,12 +48,27 @@ def get_all_employees():
 
 
 def get_single_employee(id):
-    requested_employee = None
+    with sqlite3.connect("./kennel.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
 
-    for employee in EMPLOYEES:
-        if employee["id"] == id:
-            requested_employee = employee
-    return requested_employee
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            emp.id,
+            emp.name
+        FROM employee emp
+        WHERE emp.id = ?
+        """, (id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an employee instance from the current row
+        employee = Employee(data['id'], data['name'])
+
+        return employee.__dict__
 
 
 # POST

@@ -79,7 +79,7 @@ WHERE a.id = 3
 SELECT
     l.id,
     l.name,
-		l.address
+	l.address
 FROM location l
 WHERE l.id = 1 
 
@@ -87,15 +87,17 @@ WHERE l.id = 1
 -- Get only the customer rows where the `id` field value is 4
 
 SELECT
-    cust.id,
-    cust.name
-FROM customer cust
-WHERE cust.id = 4
+    c.id,
+    c.name
+FROM customer c
+WHERE c.id = 4
 
 -- Get only the employee rows where the `id` field value is 5
 
 SELECT
-    emp.id,
-    emp.name
-FROM employee emp
-WHERE emp.id = 5
+    e.id,
+    e.name,
+    e.address,
+    e.location_id
+FROM employee e
+WHERE e.id = 5

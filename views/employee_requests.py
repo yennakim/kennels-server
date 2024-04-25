@@ -41,7 +41,8 @@ def get_all_employees():
             # Note that the database fields are specified in
             # exact order of the parameters defined in the
             # Employee class above.
-            employee = Employee(row['id'], row['name'], row['address'], row['location_id'])
+            employee = Employee(row['id'], row['name'],
+                                row['address'], row['location_id'])
 
             # see the notes below for an explanation on this line of code.
             employees.append(employee.__dict__)
@@ -70,7 +71,8 @@ def get_single_employee(id):
         data = db_cursor.fetchone()
 
         # Create an employee instance from the current row
-        employee = Employee(data['id'], data['name'], data['address'], data['location_id'])
+        employee = Employee(data['id'], data['name'],
+                            data['address'], data['location_id'])
 
         return employee.__dict__
 

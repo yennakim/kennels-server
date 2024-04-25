@@ -156,7 +156,7 @@ def update_animal(id, new_animal):
 
 # GET Animal by location
 
-def get_animal_by_location(location):
+def get_animals_by_location(location):
     with sqlite3.connect("./kennel.sqlite3") as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()

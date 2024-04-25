@@ -3,7 +3,7 @@ from views import get_all_animals, get_single_animal, get_all_locations, get_sin
 from views import create_animal, create_location, create_employee, create_customer
 from views import delete_animal, delete_location, delete_employee, delete_customer
 from views import update_animal, update_location, update_employee, update_customer
-from views import get_customer_by_email, get_animal_by_location
+from views import get_customer_by_email, get_animals_by_location, get_employees_by_location
 from urllib.parse import urlparse, parse_qs
 import json
 
@@ -109,7 +109,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             if query.get('email') and resource == 'customers':
                 response = get_customer_by_email(query['email'][0])
             if query.get('location_id') and resource == 'animals':
-                response = get_animal_by_location(query['location_id'][0])
+                response = get_animals_by_location(query['location_id'][0])
+            if query.get('location_id') and resource == 'employees':
+                response = get_employees_by_location(query['location_id'][0])
 
         self.wfile.write(json.dumps(response).encode())
 

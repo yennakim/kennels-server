@@ -6,7 +6,7 @@ ANIMALS = [
     {
         "id": 1,
         "name": "Snickers",
-        "species": "Dog",
+        "breed": "Dog",
         "locationId": 1,
         "customerId": 4,
         "status": "Admitted"
@@ -14,7 +14,7 @@ ANIMALS = [
     {
         "id": 2,
         "name": "Eleanor",
-        "species": "Dog",
+        "breed": "Dog",
         "location": 1,
         "customerId": 2,
         "status": "Admitted"
@@ -22,7 +22,7 @@ ANIMALS = [
     {
         "id": 3,
         "name": "Blue",
-        "species": "Cat",
+        "breed": "Cat",
         "locationId": 2,
         "customerId": 1,
         "status": "Admitted"
@@ -46,8 +46,8 @@ def get_all_animals():
         SELECT
             a.id,
             a.name,
-            a.breed,
             a.status,
+            a.breed,
             a.location_id,
             a.customer_id
         FROM animal a
@@ -152,3 +152,33 @@ def update_animal(id, new_animal):
             # Found the animal. Update the value.
             ANIMALS[index] = new_animal
             break
+
+
+# GET Animal by location
+
+def get_animal_by_location(location):
+    with sqlite3.connect("./kennel.sqlite3") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Write the SQL query to get the information you want
+        db_cursor.execute("""
+        select
+            a.id,
+            a.name,
+            a.status,
+            a.breed,
+            a.location_id,
+            a.customer_id
+        from Animal a
+        WHERE a.location_id = ?
+        """, ( location, ))
+
+        animals = []
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+            animal = Animal(row['id'], row['name'], row['status'], row['breed'] , row['location_id'], row['customer_id'])
+            animals.append(animal.__dict__)
+
+    return animals

@@ -130,7 +130,6 @@ def update_employee(id, new_employee):
         return True
 
 
-
 # GET Employees by Location
 
 def get_employees_by_location(location):

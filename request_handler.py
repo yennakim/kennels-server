@@ -205,13 +205,13 @@ class HandleRequests(BaseHTTPRequestHandler):
             success = update_employee(id, post_body)
         elif resource == "customers":
             success = update_employee(id, post_body)
-            
+
         # handle the value of success
         if success:
             self._set_headers(204)
         else:
             self._set_headers(404)
-            
+
         # Encode the new animal and send in response
         self.wfile.write("".encode())
 

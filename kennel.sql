@@ -110,7 +110,14 @@ SELECT
     a.location_id,
     a.customer_id,
     l.name location_name,
-    l.address location_address
+    l.address location_address,
+    c.id customer_id,
+    c.name customer_name,
+    c.address customer_address,
+    c.email customer_email,
+    c.password customer_password
 FROM Animal a
-JOIN Location l
+LEFT JOIN Location l
     ON l.id = a.location_id
+LEFT JOIN Customer c
+    ON c.id = a.location_id

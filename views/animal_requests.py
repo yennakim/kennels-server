@@ -78,9 +78,11 @@ def get_all_animals():
                             row['location_id'], row['customer_id'])
 
             # Create a Location instance from the current row
-            location = Location(row['id'], row['location_name'], row['location_address'])
-            
-            customer = Customer(row['id'], row['customer_name'], row['customer_address'], row['customer_email'], row['customer_password'])
+            location = Location(
+                row['id'], row['location_name'], row['location_address'])
+
+            customer = Customer(row['id'], row['customer_name'], row['customer_address'],
+                                row['customer_email'], row['customer_password'])
 
             # Add the dictionary representation of the location to the animal
             animal.location = location.__dict__
